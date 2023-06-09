@@ -37,7 +37,14 @@ module Decoder(
 				end
 			6'b100011: // Load data word from memory
 				begin
-					// must be also done ig
+					regwrite = 1;
+					destreg = instr[20:16];
+					alusrcbimm = 1;
+					dobranch = 0;
+					memwrite = 0;
+					memtoreg = 1;
+					dojump = 0;
+					alucontrol = //??? 
 				end
 			6'b001111: //LUI
 				begin
@@ -48,7 +55,19 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 0;
-					alucontrol = // ???
+					alucontrol = 3'b010 // ??? -> i assume should be just addition of unsigned
+				end
+			6'b001101: //ORI 
+				begin
+					regwrite = 1;
+					destreg = instr[20:16];
+					alusrcbimm = 1;
+					dobranch = 0;
+					memwrite = 0;
+					memtoreg = 0;
+					dojump = 0;
+					alucontrol = 3'b001 // should be regular or
+				end
 				end
 			6'b101011: // Store data word
 				begin
